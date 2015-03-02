@@ -22,7 +22,7 @@ func (a *Authenticator) ServeHTTP(rw http.ResponseWriter, r *http.Request, next 
 	var blockKey = []byte("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx")
 	var s = securecookie.New(hashKey, blockKey)
 
-	if !strings.Contains(r.URL.Path, "list") {
+	if !strings.Contains(r.URL.Path, "admin") {
 		next(rw, r)
 		return
 	}
