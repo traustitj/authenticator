@@ -20,6 +20,7 @@ package main
 
 import (
   "github.com/codegangsta/negroni"
+  "github.com/traustitj/authenticator"
   "net/http"
   "fmt"
   )
