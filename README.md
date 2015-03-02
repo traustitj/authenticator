@@ -11,7 +11,9 @@ This does not slow the server down if the page does not contain admin in the url
 
 To install
 ~~~~
+go get -u github.com/codegangsta/negroni
 go get -u github.com/traustitj/authenticator
+go get -u github.com/gorilla/securecookie
 ~~~~
 To Use in a webserver
 
