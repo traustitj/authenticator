@@ -24,10 +24,25 @@ import (
   "fmt"
   )
   
+func main() {
+	mux := http.NewServeMux()
+	mux.HandleFunc("/", func(w http.ResponseWriter, req *http.Request) {
+		fmt.Fprintf(w, "Welcome to the home page!")
+	})
+
+	mux.HandleFunc("/login", func(w http.ResponseWriter, req *http.Request) {
+		fmt.Fprintf(w, "Welcome to the login page!")
+	})
+	
+	mux.HandleFunc("/admin", func(w http.ResponseWriter, req *http.Request) {
+		fmt.Fprintf(w, "Welcome to the super secret admin page!")
+	})
+
 	n := negroni.Classic()
 	n.Use(authenticator.NewAuthenticator())
 	n.UseHandler(mux)
 	n.Run(":8080")
+}
 ~~~~
 
 What remains to be done.
