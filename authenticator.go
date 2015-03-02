@@ -28,24 +28,25 @@ func (a *Authenticator) ServeHTTP(rw http.ResponseWriter, r *http.Request, next 
 	}
 
 	var illegalCookie bool
-	if cookie, cookieerr := r.Cookie("user"); cookieerr != nil {
+	if cookie, cookieerr := r.Cookie("user"); cookieerr == nil {
 		results := make(map[string]string)
 		tampered := s.Decode("user", cookie.Value, &results)
 		if tampered != nil {
 			http.Error(rw, "Unauthorized", 401)
 			illegalCookie = true
 		} else {
-			illegalCookie = true
+			illegalCookie = false
 		}
+	} else {
+		illegalCookie = false
 	}
 
 	if illegalCookie == false {
 		_, err := r.Cookie("user")
 		if err != nil {
-			r.URL.Path = a.Login
+			http.Redirect(rw, r, a.Login, 401)
 			cookie := http.Cookie{Name: "redirect", Value: r.URL.Path, Path: "/"}
 			http.SetCookie(rw, &cookie)
-			http.Redirect(rw, r, a.Login, 401)
 		} else {
 			next(rw, r)
 		}
